@@ -17,13 +17,6 @@ void setup() {
     x[i] = width;
     y[i] = ((height / 16) * int(random(1, 16))) + int(random(-20, 20));
   }
-  /*
-  int frag = 1;
-  while (frag == 1) {
-    frag = open_nodered();
-    delay(1000);
-  }
-  */
 }
 
 void draw() {
@@ -55,17 +48,3 @@ void webSocketEvent(String msg) {
   message[num] = msg + "\n";
   num++;
 }
-
-/*
-int open_nodered() {
-  Runtime runtime = Runtime.getRuntime();
-  try {
-    runtime.exec("node-red &");
-  } 
-  catch (IOException e) {
-    e.printStackTrace();
-    return 1;
-  }
-  return 0;
-}
-*/
