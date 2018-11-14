@@ -444,16 +444,14 @@
    }
   }
  },
- "_credentialSecret": "0a8459529746e29d4c03a76eb5b591757e1bac081e620184d4268de76f29843e",
+ "_credentialSecret": "1fc1d29d588d68b8155cb265b56954b025d73fabe0a9c23e43c10d7e2cbae58b",
  "users": {
   "_": {
    "editor": {
     "view": {
      "view-grid-size": 20,
      "view-node-status": true,
-     "view-show-tips": true,
-     "view-snap-grid": true,
-     "view-show-grid": true
+     "view-show-tips": true
     }
    }
   }
