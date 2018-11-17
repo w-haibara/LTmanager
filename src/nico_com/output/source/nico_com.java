@@ -34,6 +34,16 @@ public void setup() {
   
   ws = new WebsocketClient(this, "ws://localhost:1880/ws/tweet");
 
+  if (args != null) {
+    println(args.length);
+    for (int i = 0; i < args.length; i++) {
+      println(args[i]);
+    }
+  } else {
+    println("args == null");
+  }
+
+
   for (int i = 0; i < Size; i++) {
     message[i] = "";
     x[i] = width;
@@ -43,7 +53,7 @@ public void setup() {
   old_time = second() + (minute() * 60) +  (hour() * 3600);
 }
 
-public void draw() {
+public void draw() {  
   background(0);
   timer(0, 0, 13);
   throw_comment(3, -5000);
