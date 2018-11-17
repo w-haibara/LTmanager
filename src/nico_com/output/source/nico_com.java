@@ -39,10 +39,10 @@ public void setup() {
     for (int i = 0; i < args.length; i++) {
       println(args[i]);
     }
+    ws.sendMessage(args[0]);
   } else {
     println("args == null");
   }
-
 
   for (int i = 0; i < Size; i++) {
     message[i] = "";
@@ -75,11 +75,11 @@ public void throw_comment(int comment_speed, int x_end){
     if (message[i] != "") {
       x[i] -= PApplet.parseInt(comment_speed);
       textAlign(LEFT);
-      text(message[i], x[i], y[i], 500, 100);
+      text(message[i], x[i], y[i]);
       if (x[i] <= x_end) {
         x[i] = width + 1000;
         message[i] = "";
-        y[i] = round((height/8) * random(1, 7));
+        y[i] = round((height/100) * round(random(1, 100)));
       }
     }
   }
