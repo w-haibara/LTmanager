@@ -19,11 +19,19 @@ public class nico_com extends PApplet {
 
 
 WebsocketClient ws;
+
+int timer_h = 0;
+int timer_m = 0;
+int timer_s = 0;
+
+String twitter_word = "";
+
 int Size = 256;
 String message[] = new String[Size];
 int num = 0;
 int x[] = new int[Size];
 int y[] = new int[Size];
+int stringFill[] = new int[Size];
 
 long old_time;
 long now_sum = 0;
@@ -35,11 +43,50 @@ public void setup() {
   ws = new WebsocketClient(this, "ws://localhost:1880/ws/tweet");
 
   if (args != null) {
-    println(args.length);
-    for (int i = 0; i < args.length; i++) {
-      println(args[i]);
+    int len = args.length;
+    int arg_t = -1;
+    int arg_h = -1;
+    int arg_m = -1;
+    int arg_s = -1;
+
+    for (int i = 0; i < len; i++) {
+      if(args[i].charAt(0) == '-'){
+        switch(args[i].charAt(1)){
+          case 't':
+            arg_t = i;
+            break;
+          case 'h': 
+            arg_h = i;
+            break;
+          case 'm':
+            arg_m = i;
+            break;
+          case 's':
+            arg_s = i;
+            break;
+        }
+      }
     }
-    ws.sendMessage(args[0]);
+
+    if(arg_t > -1){
+      if((arg_t + 1) < len) twitter_word = args[arg_t + 1];
+    }
+    if(arg_h > -1){
+      if((arg_h + 1) < len) timer_h = PApplet.parseInt(args[arg_h + 1]);
+    }
+    if(arg_m > -1){
+      if((arg_m + 1) < len) timer_m = PApplet.parseInt(args[arg_m + 1]);
+    }
+    if(arg_s > -1){
+      if((arg_s + 1) < len) timer_s = PApplet.parseInt(args[arg_s + 1]);
+    }
+
+    ws.sendMessage('#' + twitter_word);
+
+    println("\ttwitter_word : \"" + twitter_word + "\"");
+    println("\ttimer_h : " + timer_h);
+    println("\ttimer_m : " + timer_m);
+    println("\ttimer_s : " + timer_s);
   } else {
     println("args == null");
   }
@@ -48,6 +95,7 @@ public void setup() {
     message[i] = "";
     x[i] = width;
     y[i] = round((height/8) * random(1, 7));
+    stringFill[i] = round(255 - random(80));
   }
 
   old_time = second() + (minute() * 60) +  (hour() * 3600);
@@ -55,11 +103,12 @@ public void setup() {
 
 public void draw() {  
   background(0);
-  timer(0, 0, 13);
+  timer(timer_h, timer_m, timer_s);
   throw_comment(3, -5000);
 }
 
 public void webSocketEvent(String msg) {
+  msg = msg.replaceAll('#' + twitter_word, "  ");
   msg = msg.replaceAll("\n", "  ");
   num = (num == 256)? 0: num;
   message[num] = msg;
@@ -70,16 +119,16 @@ public void throw_comment(int comment_speed, int x_end){
   PFont font = createFont("Takao Pゴシック", 30, true);
   textFont(font);
   textSize(30);
-  fill(255);   
   for (int i = 0; i < Size; i++) {
     if (message[i] != "") {
       x[i] -= PApplet.parseInt(comment_speed);
+      fill(stringFill[i]);
       textAlign(LEFT);
       text(message[i], x[i], y[i]);
       if (x[i] <= x_end) {
         x[i] = width + 1000;
         message[i] = "";
-        y[i] = round((height/100) * round(random(1, 100)));
+        y[i] = round((height/100) * round(random(1, 100)) + random(-10, 10));
       }
     }
   }

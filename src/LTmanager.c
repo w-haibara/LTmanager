@@ -9,11 +9,13 @@ int main(int argc, char* argv[]){
 
 	if(argc > 1){
 		for(int i = 1; i < argc; i++){
-			printf("arg = \"%s\"\n", argv[i]);
-			sprintf(args, "%s %s", args, argv[i]);	
+			printf("\targ%d == \"%s\"\n", i, argv[i]);
+			sprintf(args, "%s %s", args, argv[i]);
 		}
+		printf("\n\targs == \"%s\"\n", args);	
+	}else{
+		printf("\n\targs == NULL\n");
 	}
-	printf("\n\targs =\"%s\"\n", args);
 
 	printf("\n\n\tnode-red : start\n\n");
 
